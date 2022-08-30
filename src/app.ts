@@ -1,31 +1,21 @@
 import express from 'express';
-import morgan from 'morgan';
-import fs from 'fs';
-import path from 'path';
 import * as dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
+import { routes } from './bootstrap/routes.js';
+import logger from './bootstrap/logger.js';
+import db from './bootstrap/db.js';
 
 const app = express();
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, '/../logs/access.log'),
-    {
-        flags: 'a',
-    }
-);
-app.use(morgan('combined', { stream: accessLogStream }));
-
-const port = process.env.PORT;
-
-console.log('port', port);
-
 app.get('/', function (req, res) {
     res.send('hello, world!');
 });
+
+db();
+logger(app);
+routes(app);
+
+const port = process.env.PORT;
 
 export const server = app.listen(port, () =>
     console.log(`Listening on port ${port}...`)
