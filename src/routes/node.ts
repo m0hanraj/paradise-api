@@ -9,9 +9,6 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    // const { error } = validate(req.body);
-    // if (error) return res.status(400).send(error.details[0].message);
-
     let node = new Node({
         ID: v4(),
         type: 'tree',
@@ -20,7 +17,12 @@ router.post('/', async (req, res) => {
         updated: new Date(),
         status: 'publish',
         content: 'Lorem ipsum',
-        metadata: ['media', '/conent/url.jpg'],
+        metadata: {
+            cost: 20,
+            composition: '3:1:1 - Soil, Sand and Straw',
+            supplement: 'limestone, neem oil',
+            season: 'Winter - ஆடி',
+        },
     });
     node = await node.save();
 

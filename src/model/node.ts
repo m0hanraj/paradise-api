@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { NodeMeta } from './nodemeta.js';
 
 export const Node = mongoose.model(
     'Node',
@@ -27,7 +28,7 @@ export const Node = mongoose.model(
             type: String,
         },
         metadata: {
-            type: Array,
+            type: NodeMeta,
         },
         status: {
             type: String,
