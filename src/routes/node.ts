@@ -1,6 +1,6 @@
 import express from 'express';
 import { v4 } from 'uuid';
-import { Node } from '../model/node.js';
+import { Node } from '../model/node';
 
 const router = express.Router();
 

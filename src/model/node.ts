@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { NodeMeta } from './nodemeta.js';
+import { NodeMeta } from './nodemeta';
 
 export const Node = mongoose.model(
     'Node',
