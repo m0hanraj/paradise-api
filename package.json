@@ -10,6 +10,7 @@
         "start": "concurrently yarn:start:*"
     },
     "dependencies": {
+        "body-parser": "^1.20.0",
         "concurrently": "^7.3.0",
         "dotenv": "^16.0.1",
         "express": "~4.16.1",
