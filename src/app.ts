@@ -31,5 +31,4 @@ const port = process.env.PORT;
 
 export const server = app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
-    server.close();
 });

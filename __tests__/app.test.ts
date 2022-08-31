@@ -4,10 +4,9 @@ import mongoose from 'mongoose';
 import { app, server } from '../src/app';
 
 describe('Test app.ts', () => {
-    afterAll((done) => {
-        mongoose.connection.close();
-        done();
-    });
+    let server: any;
+    let agent: request.SuperAgentTest;
+
     test('Catch-all route', () => {
         return request(app)
             .get('/api/node')
