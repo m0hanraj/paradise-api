@@ -1,7 +1,7 @@
 export interface NodeType {
     ID: string;
     type: string;
-    name: string;
+    title: string;
     created: Date;
     updated: Date;
     status: string;
@@ -11,5 +11,6 @@ export interface NodeType {
         composition: string;
         supplement: string;
         season: string;
+        media?: string;
     };
 }

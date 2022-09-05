@@ -27,12 +27,12 @@ router.get('/:id', async (req: Request, res: Response) => {
 //Create new node
 router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
     const date: Date = new Date();
-    const { type, name, status, content, metadata }: NodeType = req.body;
-    const { cost, composition, supplement, season } = metadata;
+    const { title, type, status, content, metadata }: NodeType = req.body;
+    const { cost, composition, supplement, season, media } = metadata || {};
     let node = new Node({
         ID: v4(),
+        title,
         type,
-        name,
         created: date,
         updated: date,
         status,
@@ -42,6 +42,7 @@ router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
             composition,
             supplement,
             season,
+            media,
         },
     });
     node = await node.save();

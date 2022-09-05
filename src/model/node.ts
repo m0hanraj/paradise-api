@@ -9,7 +9,7 @@ export const Node = mongoose.model(
             type: String,
             required: true,
         },
-        name: {
+        title: {
             type: String,
             required: true,
         },
@@ -40,16 +40,15 @@ export const Node = mongoose.model(
 
 export const nodeSchema = Joi.object().keys({
     // ID: Joi.string().guid({ version: ['uuidv4', 'uuidv5'] }),
-    name: Joi.string().required().max(40),
+    title: Joi.string().required().max(40),
     type: Joi.string().required(),
-    created: Joi.date().required(),
-    updated: Joi.date().required(),
     content: Joi.string(),
-    status: Joi.string(),
+    status: Joi.string().required(),
     metadata: Joi.object({
         cost: Joi.number(),
         composition: Joi.string(),
         season: Joi.string(),
         supplement: Joi.string(),
+        media: Joi.string(),
     }),
 });

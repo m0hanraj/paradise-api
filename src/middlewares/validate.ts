@@ -1,4 +1,4 @@
-import Joi, { Schema } from 'joi';
+import Joi, { options, Schema } from 'joi';
 import { Request, Response, NextFunction } from 'express';
 
 const validate = (schema: Schema, property = '') => {
@@ -9,10 +9,9 @@ const validate = (schema: Schema, property = '') => {
         if (valid) {
             next();
         } else {
-            const { details } = error;
+            const { details } = error || { details: [] };
             const message = details.map((i) => i.message).join(',');
 
-            console.log('error', message);
             res.status(422).json({ error: message });
         }
     };
