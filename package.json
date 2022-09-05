@@ -13,6 +13,7 @@
         "concurrently": "^7.3.0",
         "dotenv": "^16.0.1",
         "express": "~4.16.1",
+        "joi": "^17.6.0",
         "mongoose": "^6.5.3",
         "morgan": "~1.9.1",
         "uuidv4": "^6.2.13"

@@ -1,11 +1,14 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { v4 } from 'uuid';
 import { Node } from '../model/node';
+import { NodeType } from '../interfaces/node';
+import validate from '../middlewares/validate';
+import { nodeSchema } from '../model/node';
 
 const router = express.Router();
 
 //List all nodes
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
     const nodes = await Node.find({ status: 'publish' }).sort({
         created: 'desc',
     });
@@ -13,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 //GET by node ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req: Request, res: Response) => {
     const node = await Node.findOne({ ID: req.params.id });
 
     if (!node) return res.status(404).send({ message: 'ID was not found.' });
@@ -22,20 +25,23 @@ router.get('/:id', async (req, res) => {
 });
 
 //Create new node
-router.post('/', async (req, res) => {
+router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
+    const date: Date = new Date();
+    const { type, name, status, content, metadata }: NodeType = req.body;
+    const { cost, composition, supplement, season } = metadata;
     let node = new Node({
         ID: v4(),
-        type: 'tree',
-        name: 'Neem tree',
-        created: new Date(),
-        updated: new Date(),
-        status: 'publish',
-        content: 'Lorem ipsum',
+        type,
+        name,
+        created: date,
+        updated: date,
+        status,
+        content,
         metadata: {
-            cost: 20,
-            composition: '3:1:1 - Soil, Sand and Straw',
-            supplement: 'limestone, neem oil',
-            season: 'Winter - ஆடி',
+            cost,
+            composition,
+            supplement,
+            season,
         },
     });
     node = await node.save();
@@ -44,7 +50,7 @@ router.post('/', async (req, res) => {
 });
 
 //DELETE node by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
     const node = await Node.findOneAndDelete({ ID: req.params.id });
 
     if (!node) return res.status(404).send('ID was not found.');
@@ -53,7 +59,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 //UPDATE by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req: Request, res: Response) => {
     const node = await Node.findOneAndUpdate(
         { ID: req.params.id },
         { name: req.body.name },
