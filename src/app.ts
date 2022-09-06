@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import { routes } from './bootstrap/routes';
-import logger from './bootstrap/logger';
+// import logger from './bootstrap/logger';
 import db from './bootstrap/db';
 import auth from './middlewares/auth';
 import bodyParser from 'body-parser';
@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 
 db();
 
-if (process.env.ENV === 'local') logger(app);
+// if (process.env.ENV === 'local') logger(app);
 
 routes(app);
 
