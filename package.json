@@ -2,6 +2,7 @@
     "name": "paradise-api",
     "version": "1.0.0",
     "private": true,
+    "main": "src/app.ts",
     "license": "proprietary",
     "scripts": {
         "test": "jest --runInBand --detectOpenHandles --forceExit",
