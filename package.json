@@ -2,9 +2,8 @@
     "name": "paradise-api",
     "version": "1.0.0",
     "private": true,
-    "main": "src/app.ts",
-    "license": "proprietary",
     "main": "dist/app.js",
+    "license": "proprietary",
     "scripts": {
         "test": "jest --runInBand --detectOpenHandles --forceExit",
         "dev": "nodemon ./src/app.ts",
