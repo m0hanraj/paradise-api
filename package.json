@@ -7,7 +7,8 @@
     "scripts": {
         "test": "jest --runInBand --detectOpenHandles --forceExit",
         "dev": "nodemon ./src/app.ts",
-        "build": "tsc"
+        "build": "tsc",
+        "start": "node ./dist/app.js"
     },
     "dependencies": {
         "body-parser": "^1.20.0",
