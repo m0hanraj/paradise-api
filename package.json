@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "license": "proprietary",
+    "main": "dist/app.js",
     "scripts": {
         "test": "jest --runInBand --detectOpenHandles --forceExit",
         "dev": "nodemon ./src/app.ts",
