@@ -17,6 +17,9 @@ export const NodeMeta = new mongoose.Schema(
         media: {
             type: String,
         },
+        type: {
+            type: String,
+        },
     },
     { _id: false }
 );

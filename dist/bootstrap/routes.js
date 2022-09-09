@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.routes = void 0;
 const node_1 = __importDefault(require("../routes/node"));
 const routes = (app) => {
-    app.use('/api/node', node_1.default);
+    app.use('/api/nodes', node_1.default);
 };
 exports.routes = routes;

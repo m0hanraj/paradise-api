@@ -20,7 +20,14 @@ const node_2 = require("../model/node");
 const router = express_1.default.Router();
 //List all nodes
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const nodes = yield node_1.Node.find({ status: 'publish' }).sort({
+    const nodes = yield node_1.Node.find({ status: 'publish', type: 'node' }).sort({
+        created: 'desc',
+    });
+    res.send(nodes);
+}));
+//List all projects
+router.get('/projects', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const nodes = yield node_1.Node.find({ type: 'project', status: 'publish' }).sort({
         created: 'desc',
     });
     res.send(nodes);
@@ -35,7 +42,7 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 //Create new node
 router.post('/', (0, validate_1.default)(node_2.nodeSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const date = new Date();
-    const { title, type, status, content, metadata } = req.body;
+    const { title, type, status, content, metadata, uid, parent } = req.body;
     const { cost, composition, supplement, season, media } = metadata || {};
     let node = new node_1.Node({
         ID: (0, uuid_1.v4)(),
@@ -43,6 +50,8 @@ router.post('/', (0, validate_1.default)(node_2.nodeSchema), (req, res) => __awa
         type,
         created: date,
         updated: date,
+        uid,
+        parent,
         status,
         content,
         metadata: {
@@ -51,6 +60,7 @@ router.post('/', (0, validate_1.default)(node_2.nodeSchema), (req, res) => __awa
             supplement,
             season,
             media,
+            type: metadata === null || metadata === void 0 ? void 0 : metadata.type,
         },
     });
     node = yield node.save();
@@ -63,9 +73,21 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.status(404).send('ID was not found.');
     res.send(node);
 }));
+//DELETE all nodes
+// router.delete('/', async (req: Request, res: Response) => {
+//     const node = await Node.deleteMany({});
+//     if (!node) return res.status(404).send('ID was not found.');
+//     res.send(node);
+// });
 //UPDATE by ID
-router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const node = yield node_1.Node.findOneAndUpdate({ ID: req.params.id }, { name: req.body.name }, { new: true });
+router.put('/:id', (0, validate_1.default)(node_2.nodeSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const node = yield node_1.Node.findOneAndUpdate({ ID: req.params.id }, {
+        title: req.body.title,
+        content: req.body.content,
+        updated: new Date(),
+        metadata: req.body.metadata,
+        status: req.body.status,
+    }, { new: true });
     if (!node)
         return res.status(404).send('ID was not found.');
     res.send(node);
