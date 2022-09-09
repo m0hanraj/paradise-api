@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const validate = (schema, property = '') => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body);
+        console.log('Error', error);
         const valid = error == null;
         if (valid) {
+            console.log('VALID');
             next();
         }
         else {

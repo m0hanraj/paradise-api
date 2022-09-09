@@ -21,4 +21,7 @@ exports.NodeMeta = new mongoose_1.default.Schema({
     media: {
         type: String,
     },
+    type: {
+        type: String,
+    },
 }, { _id: false });

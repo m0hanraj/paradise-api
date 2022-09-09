@@ -20,6 +20,10 @@ exports.Node = mongoose_1.default.model('Node', new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    uid: {
+        type: String,
+        required: true,
+    },
     created: {
         type: Date,
         required: true,
@@ -38,6 +42,9 @@ exports.Node = mongoose_1.default.model('Node', new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    parent: {
+        type: String,
+    },
 }));
 exports.nodeSchema = joi_1.default.object().keys({
     // ID: Joi.string().guid({ version: ['uuidv4', 'uuidv5'] }),
@@ -45,11 +52,14 @@ exports.nodeSchema = joi_1.default.object().keys({
     type: joi_1.default.string().required(),
     content: joi_1.default.string(),
     status: joi_1.default.string().required(),
+    uid: joi_1.default.string().required(),
+    parent: joi_1.default.string(),
     metadata: joi_1.default.object({
         cost: joi_1.default.number(),
         composition: joi_1.default.string(),
         season: joi_1.default.string(),
         supplement: joi_1.default.string(),
         media: joi_1.default.string(),
+        type: joi_1.default.string(),
     }),
 });

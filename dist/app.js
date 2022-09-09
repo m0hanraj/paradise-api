@@ -30,7 +30,7 @@ exports.server = exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 const routes_1 = require("./bootstrap/routes");
-const logger_1 = __importDefault(require("./bootstrap/logger"));
+// import logger from './bootstrap/logger';
 const db_1 = __importDefault(require("./bootstrap/db"));
 const auth_1 = __importDefault(require("./middlewares/auth"));
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -45,8 +45,7 @@ exports.app.get('/', function (req, res) {
     res.send({ message: 'Welcome to The Paradise 🏞' });
 });
 (0, db_1.default)();
-if (process.env.ENV === 'local')
-    (0, logger_1.default)(exports.app);
+// if (process.env.ENV === 'local') logger(app);
 (0, routes_1.routes)(exports.app);
 const port = process.env.PORT;
 exports.server = exports.app.listen(port, () => {
