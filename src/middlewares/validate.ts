@@ -4,9 +4,11 @@ import { Request, Response, NextFunction } from 'express';
 const validate = (schema: Schema, property = '') => {
     return (req: Request, res: Response, next: NextFunction) => {
         const { error } = schema.validate(req.body);
+        console.log('Error', error);
         const valid = error == null;
 
         if (valid) {
+            console.log('VALID');
             next();
         } else {
             const { details } = error || { details: [] };

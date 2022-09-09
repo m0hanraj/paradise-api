@@ -9,7 +9,15 @@ const router = express.Router();
 
 //List all nodes
 router.get('/', async (req: Request, res: Response) => {
-    const nodes = await Node.find({ status: 'publish' }).sort({
+    const nodes = await Node.find({ status: 'publish', type: 'node' }).sort({
+        created: 'desc',
+    });
+    res.send(nodes);
+});
+
+//List all projects
+router.get('/projects', async (req: Request, res: Response) => {
+    const nodes = await Node.find({ type: 'project', status: 'publish' }).sort({
         created: 'desc',
     });
     res.send(nodes);
@@ -27,7 +35,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 //Create new node
 router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
     const date: Date = new Date();
-    const { title, type, status, content, metadata }: NodeType = req.body;
+    const { title, type, status, content, metadata, uid, parent }: NodeType =
+        req.body;
     const { cost, composition, supplement, season, media } = metadata || {};
     let node = new Node({
         ID: v4(),
@@ -35,6 +44,8 @@ router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
         type,
         created: date,
         updated: date,
+        uid,
+        parent,
         status,
         content,
         metadata: {
@@ -43,6 +54,7 @@ router.post('/', validate(nodeSchema), async (req: Request, res: Response) => {
             supplement,
             season,
             media,
+            type: metadata?.type,
         },
     });
     node = await node.save();
@@ -59,17 +71,36 @@ router.delete('/:id', async (req: Request, res: Response) => {
     res.send(node);
 });
 
+//DELETE all nodes
+// router.delete('/', async (req: Request, res: Response) => {
+//     const node = await Node.deleteMany({});
+
+//     if (!node) return res.status(404).send('ID was not found.');
+
+//     res.send(node);
+// });
+
 //UPDATE by ID
-router.put('/:id', async (req: Request, res: Response) => {
-    const node = await Node.findOneAndUpdate(
-        { ID: req.params.id },
-        { name: req.body.name },
-        { new: true }
-    );
+router.put(
+    '/:id',
+    validate(nodeSchema),
+    async (req: Request, res: Response) => {
+        const node = await Node.findOneAndUpdate(
+            { ID: req.params.id },
+            {
+                title: req.body.title,
+                content: req.body.content,
+                updated: new Date(),
+                metadata: req.body.metadata,
+                status: req.body.status,
+            },
+            { new: true }
+        );
 
-    if (!node) return res.status(404).send('ID was not found.');
+        if (!node) return res.status(404).send('ID was not found.');
 
-    res.send(node);
-});
+        res.send(node);
+    }
+);
 
 export default router;

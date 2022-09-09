@@ -5,12 +5,15 @@ export interface NodeType {
     created: Date;
     updated: Date;
     status: string;
-    content: string;
-    metadata: {
+    content?: string;
+    uid: string;
+    parent?: string;
+    metadata?: {
         cost: number;
         composition: string;
         supplement: string;
         season: string;
         media?: string;
+        type: string;
     };
 }

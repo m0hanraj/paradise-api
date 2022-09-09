@@ -17,6 +17,10 @@ export const Node = mongoose.model(
             type: String,
             required: true,
         },
+        uid: {
+            type: String,
+            required: true,
+        },
         created: {
             type: Date,
             required: true,
@@ -35,6 +39,9 @@ export const Node = mongoose.model(
             type: String,
             required: true,
         },
+        parent: {
+            type: String,
+        },
     })
 );
 
@@ -44,11 +51,14 @@ export const nodeSchema = Joi.object().keys({
     type: Joi.string().required(),
     content: Joi.string(),
     status: Joi.string().required(),
+    uid: Joi.string().required(),
+    parent: Joi.string(),
     metadata: Joi.object({
         cost: Joi.number(),
         composition: Joi.string(),
         season: Joi.string(),
         supplement: Joi.string(),
         media: Joi.string(),
+        type: Joi.string(),
     }),
 });
