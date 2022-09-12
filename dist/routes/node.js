@@ -32,6 +32,17 @@ router.get('/projects', (req, res) => __awaiter(void 0, void 0, void 0, function
     });
     res.send(nodes);
 }));
+//Get all node by project
+router.get('/projects/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const nodes = yield node_1.Node.find({
+        parent: req.params.id,
+        status: 'publish',
+        type: 'node',
+    }).sort({
+        created: 'desc',
+    });
+    res.send(nodes);
+}));
 //GET by node ID
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const node = yield node_1.Node.findOne({ ID: req.params.id });
@@ -73,12 +84,13 @@ router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.status(404).send('ID was not found.');
     res.send(node);
 }));
-//DELETE all nodes
-// router.delete('/', async (req: Request, res: Response) => {
-//     const node = await Node.deleteMany({});
-//     if (!node) return res.status(404).send('ID was not found.');
-//     res.send(node);
-// });
+// DELETE all nodes
+router.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const node = yield node_1.Node.deleteMany({});
+    if (!node)
+        return res.status(404).send('ID was not found.');
+    res.send(node);
+}));
 //UPDATE by ID
 router.put('/:id', (0, validate_1.default)(node_2.nodeSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const node = yield node_1.Node.findOneAndUpdate({ ID: req.params.id }, {

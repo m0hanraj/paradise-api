@@ -23,6 +23,18 @@ router.get('/projects', async (req: Request, res: Response) => {
     res.send(nodes);
 });
 
+//Get all node by project
+router.get('/projects/:id', async (req: Request, res: Response) => {
+    const nodes = await Node.find({
+        parent: req.params.id,
+        status: 'publish',
+        type: 'node',
+    }).sort({
+        created: 'desc',
+    });
+    res.send(nodes);
+});
+
 //GET by node ID
 router.get('/:id', async (req: Request, res: Response) => {
     const node = await Node.findOne({ ID: req.params.id });
@@ -71,7 +83,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     res.send(node);
 });
 
-//DELETE all nodes
+// DELETE all nodes
 // router.delete('/', async (req: Request, res: Response) => {
 //     const node = await Node.deleteMany({});
 
