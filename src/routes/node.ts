@@ -35,6 +35,18 @@ router.get('/projects/:id', async (req: Request, res: Response) => {
     res.send(nodes);
 });
 
+//Get all revision by node
+router.get('/revisions/:id', async (req: Request, res: Response) => {
+    const nodes = await Node.find({
+        parent: req.params.id,
+        status: 'publish',
+        type: 'revision',
+    }).sort({
+        created: 'desc',
+    });
+    res.send(nodes);
+});
+
 //GET by node ID
 router.get('/:id', async (req: Request, res: Response) => {
     const node = await Node.findOne({ ID: req.params.id });
